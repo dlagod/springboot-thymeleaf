@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>Update Record</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css" integrity="sha384-5sAR7xN1Nv6T6+dT2mhtzEpVJvfS3NScPQTrOxhwjIuvcA67KV2R5Jz6kr4abQsz" crossorigin="anonymous">
+        
+        <!--  jQuery -->
+		<script type="text/javascript" src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
+		<script type="text/javascript" src="//code.jquery.com/ui/1.11.2/jquery-ui.js"></script>
+
+		<!-- Isolated Version of Bootstrap, not needed if your site already uses Bootstrap -->
+		<link rel="stylesheet" href="https://formden.com/static/cdn/bootstrap-iso.css" />
+
+		<!-- Bootstrap Date-Picker Plugin -->
+		<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/js/bootstrap-datepicker.min.js"></script>
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/css/bootstrap-datepicker3.css"/>    
+		
+		<script>
+		    $(document).ready(function(){
+		      	var options={
+		        	format: 'dd/mm/yyyy',
+		        	todayHighlight: true,
+		        	autoclose: true
+		      	};
+		      	$('#updated').datepicker(options);
+		      	
+			    $('#updated').focus(function(){
+				    var popup =$(this).offset();
+				    var popupTop = popup.top;
+				    $('.datepicker').css({
+				      'top' : popupTop
+				     });
+				});
+		    })
+		</script>   
+    </head>
+    <body>
+        <div class="container my-5">
+            <h2 class="mb-5">Update Tabla</h2>
+            <div class="row">
+                <div class="col-md-12">
+                    <form action="#" th:action="@{/tabla/update/{id}(id=${entity.id})}" th:object="${entity}" method="post">
+                        <div class="row">
+                            <div class="form-group col-md-4">
+                                <label for="id" class="col-form-label">Id</label>
+                                <input type="text" th:field="*{id}" class="form-control" id="id" placeholder="Id">
+                                <span th:if="${#fields.hasErrors('id')}" th:errors="*{id}" class="text-danger"></span>
+                            </div>
+                            <div class="form-group col-md-4">
+                                <label for="texto" class="col-form-label">Texto</label>
+                                <input type="text" th:field="*{texto}" class="form-control" id="texto" placeholder="Texto">
+                                <span th:if="${#fields.hasErrors('texto')}" th:errors="*{texto}" class="text-danger"></span>
+                            </div>
+                            <div class="form-group col-md-4">  
+							   	<label for="update" class="col-form-label">Date</label>
+								<input type="text"  th:field="*{updated}" class="form-control" id="updated" name="updated" placeholder="dd/mm/yyyy"/>
+								<span th:if="${#fields.hasErrors('updated')}" th:errors="*{updated}" class="text-danger"></span>
+							</div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12 mt-5">
+                                <input type="submit" class="btn btn-primary" value="Update">
+                            </div>
+                        </div>    
+                    </form>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

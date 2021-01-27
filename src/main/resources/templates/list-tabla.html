@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>Registros</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css" integrity="sha384-5sAR7xN1Nv6T6+dT2mhtzEpVJvfS3NScPQTrOxhwjIuvcA67KV2R5Jz6kr4abQsz" crossorigin="anonymous">
+    </head>
+    <body>
+        <div th:switch="${rows}" class="container my-5">
+            <div class="row">
+                <div class="col-md-6">
+                    <h2 th:case="null">No existen registros</h2>
+                    <div th:case="*">
+                        <h2 class="my-5">Registros: TABLA</h2>
+                        <table class="table table-striped table-responsive-md">
+                            <thead>
+                                <tr>
+                                    <th>Id</th>
+                                    <th>Texto</th>
+                                    <th>Updated</th>
+                                    <th>Edit</th>
+                                    <th>Delete</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr th:each="tabla : ${rows}">
+                                    <td th:text="${tabla.id}"></td>
+                                    <td th:text="${tabla.texto}"></td>
+                                    <td th:text="${#dates.format(tabla.updated, 'dd/MM/yyyy')}"></td>
+                                    <td><a th:href="@{/tabla/edit/{id}(id=${tabla.id})}" class="btn btn-primary"><i class="fas fa-edit ml-2"></i></a></td>
+                                    <td><a th:href="@{/tabla/delete/{id}(id=${tabla.id})}" class="btn btn-primary"><i class="fas fa-trash-alt ml-2"></i></a></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>      
+                    <p class="my-5"><a href="/tabla/showAddForm" class="btn btn-primary"><i class="fas fa-plus ml-2"></i></a></p>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>
