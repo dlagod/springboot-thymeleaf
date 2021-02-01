@@ -11,13 +11,13 @@ pipeline {
         }
     }
   
-    // Opciones de configuraci贸n del proyecto
+    // Opciones de configuraci髇 del proyecto
     options {
         buildDiscarder(logRotator(numToKeepStr: '5'))
         disableConcurrentBuilds()
     }
     
-    // Definici贸n de las variables de entorno
+    // Definici髇 de las variables de entorno
     environment {
         LC_ALL="es_ES.UTF-8"
         LANG="es_ES.UTF-8"
@@ -30,12 +30,12 @@ pipeline {
         jdk 'jdk1.8.0_111'
     }
   
-    // Parametrizaci贸n de la Build
+    // Parametrizaci髇 de la Build
     parameters {
         choice(name: 'PROFILE', choices: ['all'] + axes.each {println "$it"} , description: 'Perfiles del BBDD')
         booleanParam(name: 'TESTS', defaultValue: true, description: 'Paso de las pruebas')
-        booleanParam(name: 'QUALITY', defaultValue: true, description: 'Paso de las m茅tricas de calidad')
-        booleanParam(name: 'DEPLOY', defaultValue: false, description: 'Deploy en el entorno de preproducci贸n: CI')
+        booleanParam(name: 'QUALITY', defaultValue: true, description: 'Paso de las m閠ricas de calidad')
+        booleanParam(name: 'DEPLOY', defaultValue: false, description: 'Deploy en el entorno de preproducci髇: CI')
     }
 
     // Estados de la Tarea
@@ -64,7 +64,7 @@ pipeline {
             }
         }
     
-        // Compilaci贸n
+        // Compilaci髇
         stage('Build') {
             steps {
                 // Get groovy Script
@@ -81,10 +81,10 @@ pipeline {
                     
                     //echo "${outputDir}"
       
-                    // Se saca la versi贸n del pom.xml
+                    // Se saca la versi髇 del pom.xml
                     def pomFile = "${JENKINS_HOME}/workspace/"  + job[0] + "/" + job[1] + "/pom.xml";
                     
-                    // Se saca la versi贸n del pom.xml
+                    // Se saca la versi髇 del pom.xml
                     pom = readMavenPom file: pomFile;
                     def version = pom.version.toString();
                     //echo "Version: " + version;
@@ -153,7 +153,7 @@ pipeline {
         
         // Se sube a Nexus 
         stage('Upload') {
-            // Se comprobar铆a si se pasan las metricas de calidad
+            // Se comprobar韆 si se pasan las metricas de calidad
             steps {
                     script {
                     if (env.PROFILE == 'all') {
@@ -175,7 +175,7 @@ pipeline {
             } 
             steps {
             	
-                echo "Desplegando en el entorno de  PREPRODUCCI脫N: CI"
+                echo "Desplegando en el entorno de  PREPRODUCCI覰: CI"
                 /*
                 // Incompatible con Windows ssh-agent
                 sshagent(['CI']) {
@@ -198,9 +198,9 @@ pipeline {
                                         sourceFiles: "target/*-SNAPSHOT.jar",
                                         removePrefix: "target",
                                         remoteDirectory: "springboot-thymeleaf",
-                                        //execCommand: "javaw -jar \"..\\..\\springboot-thymeleaf\\springboot-thymeleaf-1.0.0-SNAPSHOT.jar\" > output.txt"
-                                        //execCommand: "start /b java -jar \"..\\..\\springboot-thymeleaf\\springboot-thymeleaf-1.0.0-SNAPSHOT.jar\" > output.txt"
-                                        execCommand: "dir \"..\\..\\springboot-thymeleaf\""
+                                        //execCommand: "javaw -jar \"..\\..\\springboot-thymeleaf\\springboot-thymeleaf-1.0.0-SNAPSHOT.jar\""
+                                        execCommand: "start /B java -jar \"..\\..\\springboot-thymeleaf\\springboot-thymeleaf-1.0.0-SNAPSHOT.jar\""
+                                        //execCommand: "dir \"..\\..\\springboot-thymeleaf\""
                                         //execCommand: "echo \"$VERSION\""
                                     )
                                 ]
@@ -216,15 +216,14 @@ pipeline {
             //when {expression { equals expected: "SUCCESS", actual: currentBuild.currentResult } }
             when { expression { return currentBuild.currentResult == "SUCCESS" } }
             steps {
-                // Se ejecutar铆an las pruebas funcionales automatizadas: Selenium, Appium
-                // Se ejecutan las pruebas de integraci贸n Postman, SOAPUI
-                // Se ejecutar铆an pruebas de Rendimiento Jmeter
+                // Se ejecutar韆n las pruebas funcionales automatizadas: Selenium, Appium
+                // Se ejecutan las pruebas de integraci髇 Postman, SOAPUI
+                // Se ejecutar韆n pruebas de Rendimiento Jmeter
                 echo "Pipeline result: ${currentBuild.result}"
                 echo "Pipeline currentResult: ${currentBuild.currentResult}"
-                echo "Se pasan las pruebas de Aceptaci贸n"
-                sleep 10 // seconds
-                //powershell 'wget http://localhost:8082/tabla/list'
-                powershell 'wget http://localhost:8080/'
+                echo "Se pasan las pruebas de Aceptaci髇"
+                sleep 90 // seconds
+                powershell 'wget http://localhost:8082/tabla/list'
             }
         }
     }
@@ -242,7 +241,7 @@ pipeline {
             // Se muestran los resultados de JUnit
             junit allowEmptyResults: true, testResults: 'target/surefire-reports/**/*.xml' 
             
-            // Env铆o de EMAIL
+            // Env韔 de EMAIL
             emailext(
                 subject: '$DEFAULT_SUBJECT', 
                 to: '$DEFAULT_RECIPIENTS', 
