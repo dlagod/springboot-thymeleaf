@@ -8,6 +8,7 @@ pipeline {
     agent {
         node {
             label 'master'
+			customWorkspace "workspace/MultiBranch/${BRANCH_NAME}"
         }
     }
   
